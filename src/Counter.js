@@ -1,5 +1,7 @@
-import React, { useState } from "react";
+import React, { useReducer, useState } from "react";
 
+// 1. state 사용
+/*
 function Counter() {
   // state(상태) : 컴포넌트에서 동적인 값
   // useState(상태의 기본값) 호출 시 배열 반환 => 첫번째 원소는 현재 상태, 두번째 원소는 Setter 함수
@@ -13,6 +15,38 @@ function Counter() {
   const onDecrease = () => {
     // 2. 기존 값을 어떻게 업데이트 할 지에 대한 함수 등록(함수형 업데이트) ; 나중에 컴포넌트 최적화할 때 사용
     setNumber((prevNumber) => prevNumber - 1);
+  };
+
+  return (
+    <div>
+      <h1>{number}</h1>
+      <button onClick={onIncrease}>+1</button>
+      <button onClick={onDecrease}>-1</button>
+    </div>
+  );
+}
+*/
+
+// 2. reducer 사용
+function reducer(state, action) {
+  switch (action.type) {
+    case "INCREMENT":
+      return state + 1;
+    case "DECREMENT":
+      return state - 1;
+    default:
+      return state;
+  }
+}
+
+function Counter() {
+  const [number, dispatch] = useReducer(reducer, 0);
+
+  const onIncrease = () => {
+    dispatch({ type: "INCREMENT" });
+  };
+  const onDecrease = () => {
+    dispatch({ type: "DECREMENT" });
   };
 
   return (
